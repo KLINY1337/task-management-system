@@ -27,18 +27,13 @@ public class Token {
     @Enumerated(EnumType.STRING)
     private TokenType type;
 
-    private boolean isRevoked;
+    private boolean isRevoked = false;
 
-    private boolean isExpired;
+    private boolean isExpired = false;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            }, mappedBy = "tokens")
-    @JsonIgnore
-    @ToString.Exclude
-    private Set<User> users;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
 
     @Override
     public final boolean equals(Object o) {

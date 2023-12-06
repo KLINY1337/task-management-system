@@ -2,6 +2,8 @@ package com.chernomurov.effectivemobile.test.task.management.system.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
@@ -42,14 +44,7 @@ public class User implements UserDetails {
     inverseJoinColumns = {@JoinColumn(name = "role_id")})
     private Set<UserRole> roles;
 
-    @ManyToMany(fetch = FetchType.LAZY,
-            cascade = {
-                    CascadeType.PERSIST,
-                    CascadeType.MERGE
-            })
-    @JoinTable(name = "users_tokens",
-            joinColumns = {@JoinColumn(name = "user_id")},
-            inverseJoinColumns = {@JoinColumn(name = "token_id")})
+    @OneToMany(mappedBy = "user")
     private Set<Token> tokens;
 
     @Override
