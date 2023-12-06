@@ -1,5 +1,8 @@
 package com.chernomurov.effectivemobile.test.task.management.system.util;
 
+import com.chernomurov.effectivemobile.test.task.management.system.TokenType;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.Token;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -11,6 +14,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.security.Key;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.Function;
 
 @UtilityClass
@@ -32,14 +36,32 @@ public class JwtUtils {
         JwtUtils.refreshExpiration = refreshExpiration;
     }
 
-    public String generateToken(UserDetails userDetails) {
-        Date currentDate = new Date(System.currentTimeMillis());
-        Date expirationDate = new Date(System.currentTimeMillis() + expiration);
+    public Token generateAccessToken(UserDetails userDetails) {
+        return generateToken(userDetails, expiration, TokenType.ACCESS_TOKEN);
+    }
 
+    public Token generateRefreshToken(UserDetails userDetails) {
+        return generateToken(userDetails, refreshExpiration, TokenType.REFRESH_TOKEN);
+    }
+
+    private Token generateToken(UserDetails userDetails, long tokenExpiration, TokenType tokenType) {
+        Date expirationDate = new Date(System.currentTimeMillis() + tokenExpiration);
+        String value = getTokenValue(userDetails, expirationDate, tokenType);
+
+        return Token.builder()
+                .value(value)
+                .type(tokenType)
+                .user((User) userDetails)
+                .build();
+    }
+
+    private String getTokenValue(UserDetails userDetails, Date expirationDate, TokenType tokenType) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("tokenType", tokenType);
         return Jwts.builder()
-                .setClaims(new HashMap<>())
+                .setClaims(claims)
                 .setSubject(userDetails.getUsername())
-                .setIssuedAt(currentDate)
+                .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(expirationDate)
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
@@ -71,4 +93,6 @@ public class JwtUtils {
     private Key getSigningKey() {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(signingKey));
     }
+
+
 }
