@@ -3,6 +3,7 @@ package com.chernomurov.effectivemobile.test.task.management.system.exception;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,4 +36,35 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
+
+    @ExceptionHandler(ContractorNotFoundException.class)
+    public ResponseEntity<ApplicationErrorMessage> catchContractorNotFoundException(ContractorNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(TaskNotFoundException.class)
+    public ResponseEntity<ApplicationErrorMessage> catchTaskNotFoundException(TaskNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApplicationErrorMessage> catchUsernameNotFoundException(UsernameNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(CustomerNotFoundException.class)
+    public ResponseEntity<ApplicationErrorMessage> catchCustomerNotFoundException(CustomerNotFoundException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(UnauthorizedCustomerTaskAccessException.class)
+    public ResponseEntity<ApplicationErrorMessage> catchUnauthorizedCustomerTaskAccessException(UnauthorizedCustomerTaskAccessException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
+    }
+
 }
