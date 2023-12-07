@@ -13,6 +13,7 @@ import com.chernomurov.effectivemobile.test.task.management.system.repository.Us
 import com.chernomurov.effectivemobile.test.task.management.system.util.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,6 +69,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserDetails userDetails = userService.loadUserByUsername(request.getEmail());
         tokenRepository.RevokeAllValidUserTokens((User) userDetails);
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         Token accessToken = JwtUtils.generateAccessToken(userDetails);
         Token refreshToken = JwtUtils.generateRefreshToken(userDetails);

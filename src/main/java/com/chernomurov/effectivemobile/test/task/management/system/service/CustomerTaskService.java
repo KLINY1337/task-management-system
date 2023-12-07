@@ -1,6 +1,7 @@
 package com.chernomurov.effectivemobile.test.task.management.system.service;
 
 import com.chernomurov.effectivemobile.test.task.management.system.ResponsePage;
+import com.chernomurov.effectivemobile.test.task.management.system.TaskStatus;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.CustomerTask;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.TaskComment;
 import com.chernomurov.effectivemobile.test.task.management.system.request.CreateTaskRequest;
@@ -17,4 +18,5 @@ public interface CustomerTaskService {
 
     Map<String, Set<ResponsePage>> getAllCustomerTasksByCustomerId(Long id);
     Map<String, Set<ResponsePage>> getAllContractorTasksByContractorId(Long id);
+    Map<String, Object> updateContractorTaskStatusByTaskId(Long id, TaskStatus status);
 }
