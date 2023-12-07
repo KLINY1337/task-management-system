@@ -6,6 +6,7 @@ import lombok.SneakyThrows;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +23,7 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] WHITE_LIST_URI = {"/api/v1/auth/**",
+    private static final String[] WHITE_LIST_URI = {"/api/v1/authentication/**",
             "/v2/api-docs",
             "/v3/api-docs",
             "/v3/api-docs/**",
@@ -50,7 +51,8 @@ public class SecurityConfig {
                 .logoutSuccessHandler(((request, response, authentication) -> SecurityContextHolder.clearContext())));
 
         security.authorizeHttpRequests(requestMatcherRegistry -> requestMatcherRegistry
-                .anyRequest().permitAll());
+                .requestMatchers(WHITE_LIST_URI).permitAll()
+                .anyRequest().authenticated());
 
         return security.build();
     }
