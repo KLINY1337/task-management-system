@@ -16,6 +16,7 @@ import java.util.Set;
 @Data
 public class CreateTaskRequest implements Serializable {
 
+    @Nullable
     private final String title;
 
     @NotNull(message = "ERROR -> Description is not specified")
