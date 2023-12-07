@@ -1,7 +1,19 @@
 package com.chernomurov.effectivemobile.test.task.management.system;
 
-import java.util.Set;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.RequiredArgsConstructor;
 
-public record ResponsePage(long pageNumber,
-                           Set<Object> objects)
-{}
+import java.util.List;
+
+
+@Data
+public record ResponsePage(int pageNumber,
+                           List<Object> objects)
+{
+    public ResponsePage(int pageNumber, List<Object> objects) {
+        this.pageNumber = pageNumber;
+        this.objects = objects;
+    }
+}
