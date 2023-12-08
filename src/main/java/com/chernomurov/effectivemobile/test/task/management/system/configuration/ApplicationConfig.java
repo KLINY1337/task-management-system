@@ -31,7 +31,6 @@ public class ApplicationConfig {
     private long refreshExpiration;
 
     private final UserRepository userRepository;
-    private final UserRoleRepository userRoleRepository;
 
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {

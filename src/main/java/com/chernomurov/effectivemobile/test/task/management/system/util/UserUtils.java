@@ -18,13 +18,9 @@ import java.util.Map;
 public class UserUtils {
 
     private UserRepository userRepository;
-    private UserRoleRepository userRoleRepository;
 
     public void setUserRepository(UserRepository userRepository) {
         UserUtils.userRepository = userRepository;
-    }
-    public void setUserRoleRepository(UserRoleRepository userRoleRepository) {
-        UserUtils.userRoleRepository = userRoleRepository;
     }
 
     @NotNull
@@ -37,16 +33,4 @@ public class UserUtils {
         }
         throw new UsernameNotFoundException("CRITICAL ERROR -> UNREACHABLE APPLICATION STATEMENT ; Class: " + UserUtils.class.getName());
     }
-
-    @NotNull
-    public User getUserByIdAndCheckRole(Long id, String roleName) {
-        User user = userRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("ERROR -> " + roleName + " not found (id: '" + id + "') ; Class: " + UserUtils.class.getName()));
-
-        if (!user.getRoles().contains(userRoleRepository.findByName(roleName).get())) {
-            throw new UserRoleCheckException("ERROR -> Selected user is not a " + roleName.toLowerCase() + " (id: '" + id + "') ; Class: " + UserUtils.class.getName());
-        }
-        return user;
-    }
-
-
 }

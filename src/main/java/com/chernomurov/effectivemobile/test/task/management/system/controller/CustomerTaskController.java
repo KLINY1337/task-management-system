@@ -17,7 +17,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/v1/task")
 @RequiredArgsConstructor
-@PreAuthorize("isAuthenticated()")
 public class CustomerTaskController{
 
     private final CustomerTaskService customerTaskService;

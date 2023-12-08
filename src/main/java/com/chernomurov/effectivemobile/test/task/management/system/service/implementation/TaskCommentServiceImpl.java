@@ -52,7 +52,7 @@ public class TaskCommentServiceImpl implements TaskCommentService {
         }
 
         List<TaskComment> taskComments = taskCommentRepository.findAllTaskCommentsByTaskIdOrderedByCreationDateTimeFromNewToOld(id);
-        SortedSet<ResponsePageUtils.ResponsePage> paginatedTaskComments = ResponsePageUtils.getPaginatedObjects(Collections.singletonList(taskComments));
+        SortedSet<ResponsePageUtils.ResponsePage> paginatedTaskComments = ResponsePageUtils.getPaginatedObjects(taskComments.stream().map(t -> (Object) t).toList());
 
         Map<String, Set<ResponsePageUtils.ResponsePage>> response = new HashMap<>();
         response.put("pages", paginatedTaskComments);

@@ -1,18 +1,18 @@
 package com.chernomurov.effectivemobile.test.task.management.system.service.implementation;
 
-import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskPriority;
-import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskStatus;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.CreateTaskRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.UpdateCustomerTaskRequest;
 import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.ContractorNotFoundException;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.CustomerNotFoundException;
 import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.TaskNotFoundException;
 import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.UnauthorizedCustomerTaskAccessException;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.CustomerTask;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.User;
-import com.chernomurov.effectivemobile.test.task.management.system.exception.*;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskPriority;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskStatus;
 import com.chernomurov.effectivemobile.test.task.management.system.repository.CustomerTaskRepository;
 import com.chernomurov.effectivemobile.test.task.management.system.repository.UserRepository;
 import com.chernomurov.effectivemobile.test.task.management.system.repository.UserRoleRepository;
-import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.CreateTaskRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.UpdateCustomerTaskRequest;
 import com.chernomurov.effectivemobile.test.task.management.system.service.CustomerTaskService;
 import com.chernomurov.effectivemobile.test.task.management.system.util.ResponsePageUtils;
 import com.chernomurov.effectivemobile.test.task.management.system.util.UserUtils;
@@ -112,10 +112,10 @@ public class CustomerTaskServiceImpl implements CustomerTaskService {
 
     @Override
     public Map<String, Set<ResponsePageUtils.ResponsePage>> getAllCustomerTasksByCustomerId(Long id) {
-        User customer = UserUtils.getUserByIdAndCheckRole(id, "CUSTOMER");
+        User customer = userRepository.findById(id).orElseThrow(() -> new CustomerNotFoundException("ERROR -> Customer not found (id: '" + id + "') ; Class: " + this.getClass().getName()));
 
         List<CustomerTask> tasks = customerTaskRepository.findAllTasksOfCustomerOrderedByCreationDateTimeFromNewToOld(customer);
-        SortedSet<ResponsePageUtils.ResponsePage> paginatedTasks = ResponsePageUtils.getPaginatedObjects(Collections.singletonList(tasks));
+        SortedSet<ResponsePageUtils.ResponsePage> paginatedTasks = ResponsePageUtils.getPaginatedObjects(tasks.stream().map(t -> (Object) t).toList());
 
         Map<String, Set<ResponsePageUtils.ResponsePage>> response = new HashMap<>();
         response.put("pages", paginatedTasks);
@@ -124,10 +124,10 @@ public class CustomerTaskServiceImpl implements CustomerTaskService {
 
     @Override
     public Map<String, Set<ResponsePageUtils.ResponsePage>> getAllContractorTasksByContractorId(Long id) {
-        User contractor = UserUtils.getUserByIdAndCheckRole(id, "CONTRACTOR");
+        User contractor = userRepository.findById(id).orElseThrow(() -> new ContractorNotFoundException("ERROR -> Contractor not found (id: '" + id + "') ; Class: " + this.getClass().getName()));
 
         List<CustomerTask> tasks = customerTaskRepository.findAllTasksDelegatedToContractorOrderedByCreationDateTimeFromNewToOld(contractor);
-        SortedSet<ResponsePageUtils.ResponsePage> paginatedTasks = ResponsePageUtils.getPaginatedObjects(Collections.singletonList(tasks));
+        SortedSet<ResponsePageUtils.ResponsePage> paginatedTasks = ResponsePageUtils.getPaginatedObjects(tasks.stream().map(t -> (Object) t).toList());
 
         Map<String, Set<ResponsePageUtils.ResponsePage>> response = new HashMap<>();
         response.put("pages", paginatedTasks);

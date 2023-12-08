@@ -9,6 +9,7 @@ import com.chernomurov.effectivemobile.test.task.management.system.custom.except
 import com.chernomurov.effectivemobile.test.task.management.system.service.AuthenticationService;
 import com.chernomurov.effectivemobile.test.task.management.system.service.UserService;
 import com.chernomurov.effectivemobile.test.task.management.system.util.JwtUtils;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;

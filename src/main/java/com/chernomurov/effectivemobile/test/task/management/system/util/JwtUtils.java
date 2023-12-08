@@ -44,29 +44,6 @@ public class JwtUtils {
         return generateToken(userDetails, refreshExpiration, TokenType.REFRESH_TOKEN);
     }
 
-    private Token generateToken(UserDetails userDetails, long tokenExpiration, TokenType tokenType) {
-        Date expirationDate = new Date(System.currentTimeMillis() + tokenExpiration);
-        String value = getTokenValue(userDetails, expirationDate, tokenType);
-
-        return Token.builder()
-                .value(value)
-                .type(tokenType)
-                .user((User) userDetails)
-                .build();
-    }
-
-    private String getTokenValue(UserDetails userDetails, Date expirationDate, TokenType tokenType) {
-        Map<String, Object> claims = new HashMap<>();
-        claims.put("tokenType", tokenType);
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userDetails.getUsername())
-                .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(expirationDate)
-                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
-                .compact();
-    }
-
     public boolean isUserPresentedInTokenIsValid(String token, UserDetails userDetails) {
         boolean isUsernameInUserDetailsAndInJwtMatches = userDetails.getUsername().equals(getEmail(token));
         boolean isTokenExpired = getClaim(token, Claims::getExpiration).before(new Date(System.currentTimeMillis()));
@@ -94,5 +71,26 @@ public class JwtUtils {
         return Keys.hmacShaKeyFor(Decoders.BASE64.decode(signingKey));
     }
 
+    private Token generateToken(UserDetails userDetails, long tokenExpiration, TokenType tokenType) {
+        Date expirationDate = new Date(System.currentTimeMillis() + tokenExpiration);
+        String value = getTokenValue(userDetails, expirationDate, tokenType);
 
+        return Token.builder()
+                .value(value)
+                .type(tokenType)
+                .user((User) userDetails)
+                .build();
+    }
+
+    private String getTokenValue(UserDetails userDetails, Date expirationDate, TokenType tokenType) {
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("tokenType", tokenType);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userDetails.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(expirationDate)
+                .signWith(getSigningKey(), SignatureAlgorithm.HS256)
+                .compact();
+    }
 }

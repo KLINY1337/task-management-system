@@ -22,17 +22,13 @@ import org.springframework.security.web.authentication.logout.LogoutHandler;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private static final String[] WHITE_LIST_URI = {"/api/v1/authentication/**",
-            "/v2/api-docs",
-            "/v3/api-docs",
+    private static final String[] WHITE_LIST_URI = {
+            "/api/v1/authentication/**",
             "/v3/api-docs/**",
-            "/swagger-resources",
-            "/swagger-resources/**",
-            "/configuration/ui",
-            "/configuration/security",
             "/swagger-ui/**",
-            "/webjars/**",
-            "/swagger-ui.html"};
+            "/v2/api-docs/**",
+            "/v2/api-docs",
+            "/swagger-resources/**"};
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
     private final LogoutHandler logoutHandler;

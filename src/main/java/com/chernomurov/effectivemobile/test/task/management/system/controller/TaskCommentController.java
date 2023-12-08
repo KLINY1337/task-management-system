@@ -13,7 +13,6 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/v1/comment/")
 @RequiredArgsConstructor
-@PreAuthorize("isAuthenticated()")
 public class TaskCommentController {
 
     private final TaskCommentService taskCommentService;

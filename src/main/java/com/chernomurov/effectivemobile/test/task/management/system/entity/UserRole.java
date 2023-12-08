@@ -31,6 +31,10 @@ public class UserRole {
     @JsonIgnore
     private Set<User> users = new HashSet<>();
 
+    public UserRole(String roleName) {
+        this.name = roleName;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;

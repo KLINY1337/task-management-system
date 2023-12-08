@@ -23,6 +23,5 @@ public class StaticContextInitializer {
     @PostConstruct
     public void initUserUtils() {
         UserUtils.setUserRepository(applicationConfig.getUserRepository());
-        UserUtils.setUserRoleRepository(applicationConfig.getUserRoleRepository());
     }
 }

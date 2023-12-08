@@ -23,7 +23,6 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<ApplicationErrorMessage> catchMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         List<String> errors = new ArrayList<>();
@@ -31,47 +30,39 @@ public class GlobalExceptionHandler {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.BAD_REQUEST.value(), errors), HttpStatus.BAD_REQUEST);
     }
-
     @ExceptionHandler(RoleNotFoundException.class)
     public ResponseEntity<ApplicationErrorMessage> catchRoleNotFoundException(RoleNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(ContractorNotFoundException.class)
     public ResponseEntity<ApplicationErrorMessage> catchContractorNotFoundException(ContractorNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(TaskNotFoundException.class)
     public ResponseEntity<ApplicationErrorMessage> catchTaskNotFoundException(TaskNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(UsernameNotFoundException.class)
     public ResponseEntity<ApplicationErrorMessage> catchUsernameNotFoundException(UsernameNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(CustomerNotFoundException.class)
     public ResponseEntity<ApplicationErrorMessage> catchCustomerNotFoundException(CustomerNotFoundException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.NOT_FOUND.value(), e.getMessage()), HttpStatus.NOT_FOUND);
     }
-
     @ExceptionHandler(UnauthorizedCustomerTaskAccessException.class)
     public ResponseEntity<ApplicationErrorMessage> catchUnauthorizedCustomerTaskAccessException(UnauthorizedCustomerTaskAccessException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
     }
-
     @ExceptionHandler(UserRoleCheckException.class)
     public ResponseEntity<ApplicationErrorMessage> catchUserRoleCheckException(UserRoleCheckException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
     }
-
 }
