@@ -1,9 +1,6 @@
 package com.chernomurov.effectivemobile.test.task.management.system.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Pattern;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,6 +17,7 @@ import java.util.stream.Collectors;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "_user")
 public class User implements UserDetails {
 
@@ -34,7 +32,7 @@ public class User implements UserDetails {
 
     private LocalDateTime creationDate;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
     cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -47,10 +45,26 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "user")
     private Set<Token> tokens;
 
+    @OneToMany(mappedBy = "author")
+    private Set<TaskComment> comments;
+
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "contractors_tasks",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "task_id")})
+    private Set<CustomerTask> acceptedTasks;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
     }
+
+    @OneToMany(mappedBy = "customer")
+    private Set<CustomerTask> createdTasks;
 
     @Override
     public String getUsername() {
@@ -77,6 +91,19 @@ public class User implements UserDetails {
         return true;
     }
 
+    public Map<String, Object> getPrincipal() {
+        Map<String, Object> principal = new HashMap<>();
+        principal.put("username", email);
+        principal.put("creationDate", creationDate);
+        return principal;
+    }
+
+    public Map<String, Object> getCredentials() {
+        Map<String, Object> credentials = new HashMap<>();
+        credentials.put("password", password);
+        return credentials;
+    }
+
     @Override
     public final boolean equals(Object o) {
         if (this == o) return true;
@@ -91,18 +118,5 @@ public class User implements UserDetails {
     @Override
     public final int hashCode() {
         return this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass().hashCode() : getClass().hashCode();
-    }
-
-    public Map<String, Object> getPrincipal() {
-        Map<String, Object> principal = new HashMap<>();
-        principal.put("username", email);
-        principal.put("creationDate", creationDate);
-        return principal;
-    }
-
-    public Map<String, Object> getCredentials() {
-        Map<String, Object> credentials = new HashMap<>();
-        credentials.put("password", password);
-        return credentials;
     }
 }

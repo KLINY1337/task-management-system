@@ -1,18 +1,18 @@
-package com.chernomurov.effectivemobile.test.task.management.system.service;
+package com.chernomurov.effectivemobile.test.task.management.system.service.implementation;
 
-import com.chernomurov.effectivemobile.test.task.management.system.entity.Token;
-import com.chernomurov.effectivemobile.test.task.management.system.repository.TokenRepository;
-import com.chernomurov.effectivemobile.test.task.management.system.request.AuthenticateUserRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.request.RegisterUserRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.entity.User;
-import com.chernomurov.effectivemobile.test.task.management.system.entity.UserRole;
-import com.chernomurov.effectivemobile.test.task.management.system.exception.RoleNotFoundException;
-import com.chernomurov.effectivemobile.test.task.management.system.exception.UserAlreadyExistsException;
-import com.chernomurov.effectivemobile.test.task.management.system.repository.UserRepository;
-import com.chernomurov.effectivemobile.test.task.management.system.repository.UserRoleRepository;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.*;
+import com.chernomurov.effectivemobile.test.task.management.system.repository.*;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.AuthenticateUserRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.RegisterUserRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.RoleNotFoundException;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.UserAlreadyExistsException;
+import com.chernomurov.effectivemobile.test.task.management.system.service.AuthenticationService;
+import com.chernomurov.effectivemobile.test.task.management.system.service.UserService;
 import com.chernomurov.effectivemobile.test.task.management.system.util.JwtUtils;
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -68,6 +68,8 @@ public class AuthenticationServiceImpl implements AuthenticationService {
 
         UserDetails userDetails = userService.loadUserByUsername(request.getEmail());
         tokenRepository.RevokeAllValidUserTokens((User) userDetails);
+
+        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword()));
 
         Token accessToken = JwtUtils.generateAccessToken(userDetails);
         Token refreshToken = JwtUtils.generateRefreshToken(userDetails);

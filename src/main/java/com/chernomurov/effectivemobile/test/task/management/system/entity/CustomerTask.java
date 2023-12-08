@@ -1,39 +1,54 @@
 package com.chernomurov.effectivemobile.test.task.management.system.entity;
 
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskPriority;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
-import java.util.HashSet;
+import java.time.LocalDateTime;
 import java.util.Objects;
 import java.util.Set;
 
 @Entity
-@Getter
-@Setter
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserRole {
+public class CustomerTask {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
+    private String title;
 
-    @ManyToMany(fetch = FetchType.EAGER,
+    private String description;
+
+    @Enumerated(EnumType.STRING)
+    private TaskStatus status;
+
+    @Enumerated(EnumType.STRING)
+    private TaskPriority priority;
+
+    private LocalDateTime creationDateTime;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "customer_id")
+    @JsonIgnore
+    private User customer;
+
+    @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
                     CascadeType.PERSIST,
                     CascadeType.MERGE
-            }, mappedBy = "roles")
+            }, mappedBy = "acceptedTasks")
     @JsonIgnore
-    private Set<User> users = new HashSet<>();
+    private Set<User> contractors;
 
-    public UserRole(String roleName) {
-        this.name = roleName;
-    }
+    @OneToMany(mappedBy = "task")
+    private Set<TaskComment> comments;
 
     @Override
     public final boolean equals(Object o) {
@@ -42,8 +57,8 @@ public class UserRole {
         Class<?> oEffectiveClass = o instanceof HibernateProxy ? ((HibernateProxy) o).getHibernateLazyInitializer().getPersistentClass() : o.getClass();
         Class<?> thisEffectiveClass = this instanceof HibernateProxy ? ((HibernateProxy) this).getHibernateLazyInitializer().getPersistentClass() : this.getClass();
         if (thisEffectiveClass != oEffectiveClass) return false;
-        UserRole userRole = (UserRole) o;
-        return getId() != null && Objects.equals(getId(), userRole.getId());
+        CustomerTask that = (CustomerTask) o;
+        return getId() != null && Objects.equals(getId(), that.getId());
     }
 
     @Override

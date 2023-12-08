@@ -1,7 +1,8 @@
-package com.chernomurov.effectivemobile.test.task.management.system.service;
+package com.chernomurov.effectivemobile.test.task.management.system.service.implementation;
 
 import com.chernomurov.effectivemobile.test.task.management.system.entity.Token;
 import com.chernomurov.effectivemobile.test.task.management.system.repository.TokenRepository;
+import com.chernomurov.effectivemobile.test.task.management.system.service.LogoutService;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;

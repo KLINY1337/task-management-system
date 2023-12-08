@@ -1,19 +1,21 @@
-package com.chernomurov.effectivemobile.test.task.management.system.request;
+package com.chernomurov.effectivemobile.test.task.management.system.custom.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.io.Serializable;
+
 @Data
-public class AuthenticateUserRequest {
+public class AuthenticateUserRequest implements Serializable {
 
     @Email(message = "ERROR -> User email is invalid")
     @NotNull(message = "ERROR -> User email is not specified")
     @NotEmpty(message = "ERROR -> User email is not specified")
-    private String email;
+    private final String email;
 
     @NotNull(message = "ERROR -> User password is not specified")
     @NotEmpty(message = "ERROR -> User password can't be empty")
-    private String password;
+    private final String password;
 }
