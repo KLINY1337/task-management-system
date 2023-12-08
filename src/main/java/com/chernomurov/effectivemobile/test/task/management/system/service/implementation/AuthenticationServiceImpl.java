@@ -1,11 +1,13 @@
-package com.chernomurov.effectivemobile.test.task.management.system.service;
+package com.chernomurov.effectivemobile.test.task.management.system.service.implementation;
 
 import com.chernomurov.effectivemobile.test.task.management.system.entity.*;
 import com.chernomurov.effectivemobile.test.task.management.system.repository.*;
-import com.chernomurov.effectivemobile.test.task.management.system.request.AuthenticateUserRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.request.RegisterUserRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.exception.RoleNotFoundException;
-import com.chernomurov.effectivemobile.test.task.management.system.exception.UserAlreadyExistsException;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.AuthenticateUserRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.RegisterUserRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.RoleNotFoundException;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.UserAlreadyExistsException;
+import com.chernomurov.effectivemobile.test.task.management.system.service.AuthenticationService;
+import com.chernomurov.effectivemobile.test.task.management.system.service.UserService;
 import com.chernomurov.effectivemobile.test.task.management.system.util.JwtUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

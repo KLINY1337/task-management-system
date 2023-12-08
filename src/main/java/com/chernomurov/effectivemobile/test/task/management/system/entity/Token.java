@@ -1,13 +1,11 @@
 package com.chernomurov.effectivemobile.test.task.management.system.entity;
 
-import com.chernomurov.effectivemobile.test.task.management.system.TokenType;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TokenType;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 @Getter

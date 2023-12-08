@@ -1,4 +1,4 @@
-package com.chernomurov.effectivemobile.test.task.management.system.security.filter;
+package com.chernomurov.effectivemobile.test.task.management.system.custom.security.filter;
 
 import com.chernomurov.effectivemobile.test.task.management.system.entity.User;
 import com.chernomurov.effectivemobile.test.task.management.system.repository.TokenRepository;

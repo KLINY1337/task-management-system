@@ -1,4 +1,4 @@
-package com.chernomurov.effectivemobile.test.task.management.system.request;
+package com.chernomurov.effectivemobile.test.task.management.system.custom.dto;
 
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;

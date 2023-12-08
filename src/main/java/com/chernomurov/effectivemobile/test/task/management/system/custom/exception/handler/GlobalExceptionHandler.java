@@ -1,5 +1,6 @@
-package com.chernomurov.effectivemobile.test.task.management.system.exception;
+package com.chernomurov.effectivemobile.test.task.management.system.custom.exception.handler;
 
+import com.chernomurov.effectivemobile.test.task.management.system.custom.exception.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,7 @@ public class GlobalExceptionHandler {
     @ExceptionHandler(UserAlreadyExistsException.class)
     public ResponseEntity<ApplicationErrorMessage> catchUserAlreadyExistsException(UserAlreadyExistsException e) {
         log.error(e.getMessage(), e);
-        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.CONFLICT.value(), e.getMessage()), HttpStatus.CONFLICT);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.BAD_REQUEST.value(), e.getMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
@@ -63,6 +64,12 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(UnauthorizedCustomerTaskAccessException.class)
     public ResponseEntity<ApplicationErrorMessage> catchUnauthorizedCustomerTaskAccessException(UnauthorizedCustomerTaskAccessException e) {
+        log.error(e.getMessage(), e);
+        return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
+    }
+
+    @ExceptionHandler(UserRoleCheckException.class)
+    public ResponseEntity<ApplicationErrorMessage> catchUserRoleCheckException(UserRoleCheckException e) {
         log.error(e.getMessage(), e);
         return new ResponseEntity<>(new ApplicationErrorMessage(Timestamp.valueOf(LocalDateTime.now()).getTime(), HttpStatus.FORBIDDEN.value(), e.getMessage()), HttpStatus.FORBIDDEN);
     }

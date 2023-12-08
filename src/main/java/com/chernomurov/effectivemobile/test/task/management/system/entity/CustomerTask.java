@@ -1,14 +1,13 @@
 package com.chernomurov.effectivemobile.test.task.management.system.entity;
 
-import com.chernomurov.effectivemobile.test.task.management.system.TaskPriority;
-import com.chernomurov.effectivemobile.test.task.management.system.TaskStatus;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskPriority;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskStatus;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.proxy.HibernateProxy;
 
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 

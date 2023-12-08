@@ -1,17 +1,16 @@
 package com.chernomurov.effectivemobile.test.task.management.system.controller;
 
-import com.chernomurov.effectivemobile.test.task.management.system.ResponsePage;
-import com.chernomurov.effectivemobile.test.task.management.system.TaskStatus;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskStatus;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.CustomerTask;
-import com.chernomurov.effectivemobile.test.task.management.system.request.CreateTaskRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.request.UpdateCustomerTaskRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.CreateTaskRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.UpdateCustomerTaskRequest;
 import com.chernomurov.effectivemobile.test.task.management.system.service.CustomerTaskService;
+import com.chernomurov.effectivemobile.test.task.management.system.util.ResponsePageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -49,13 +48,13 @@ public class CustomerTaskController{
 
     @PreAuthorize("hasAuthority('CUSTOMER')")
     @GetMapping("/customer/{id}/tasks")
-    public ResponseEntity<Map<String, Set<ResponsePage>>> getAllCustomerTasksByCustomerId(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Set<ResponsePageUtils.ResponsePage>>> getAllCustomerTasksByCustomerId(@PathVariable Long id) {
         return ResponseEntity.ok(customerTaskService.getAllCustomerTasksByCustomerId(id));
     }
 
     @PreAuthorize("hasAnyAuthority('CUSTOMER', 'CONTRACTOR')")
     @GetMapping("/contractor/{id}/tasks")
-    public ResponseEntity<Map<String, Set<ResponsePage>>> getAllContractorTasksByContractorId(@PathVariable Long id) {
+    public ResponseEntity<Map<String, Set<ResponsePageUtils.ResponsePage>>> getAllContractorTasksByContractorId(@PathVariable Long id) {
         return ResponseEntity.ok(customerTaskService.getAllContractorTasksByContractorId(id));
     }
 

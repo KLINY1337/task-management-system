@@ -1,6 +1,6 @@
-package com.chernomurov.effectivemobile.test.task.management.system.request;
+package com.chernomurov.effectivemobile.test.task.management.system.custom.dto;
 
-import com.chernomurov.effectivemobile.test.task.management.system.TaskPriority;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskPriority;
 import jakarta.annotation.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;

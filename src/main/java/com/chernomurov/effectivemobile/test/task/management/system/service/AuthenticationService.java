@@ -1,7 +1,7 @@
 package com.chernomurov.effectivemobile.test.task.management.system.service;
 
-import com.chernomurov.effectivemobile.test.task.management.system.request.AuthenticateUserRequest;
-import com.chernomurov.effectivemobile.test.task.management.system.request.RegisterUserRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.AuthenticateUserRequest;
+import com.chernomurov.effectivemobile.test.task.management.system.custom.dto.RegisterUserRequest;
 
 import java.util.Map;
 

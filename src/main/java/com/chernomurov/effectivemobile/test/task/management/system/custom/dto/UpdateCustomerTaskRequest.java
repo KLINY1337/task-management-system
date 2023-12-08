@@ -1,11 +1,9 @@
-package com.chernomurov.effectivemobile.test.task.management.system.request;
+package com.chernomurov.effectivemobile.test.task.management.system.custom.dto;
 
-import com.chernomurov.effectivemobile.test.task.management.system.TaskPriority;
-import com.chernomurov.effectivemobile.test.task.management.system.TaskStatus;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskPriority;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TaskStatus;
 import jakarta.annotation.Nullable;
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.Getter;
 
 import java.io.Serializable;
 import java.util.Set;

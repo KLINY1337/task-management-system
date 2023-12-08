@@ -1,6 +1,9 @@
 package com.chernomurov.effectivemobile.test.task.management.system.configuration;
 
+import com.chernomurov.effectivemobile.test.task.management.system.repository.UserRepository;
+import com.chernomurov.effectivemobile.test.task.management.system.repository.UserRoleRepository;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @Getter
+@RequiredArgsConstructor
 public class ApplicationConfig {
 
     @Value("${static.context.application.security.jwt.signing-key}")
@@ -25,6 +29,9 @@ public class ApplicationConfig {
 
     @Value("${static.context.application.security.jwt.refresh-token.expiration}")
     private long refreshExpiration;
+
+    private final UserRepository userRepository;
+    private final UserRoleRepository userRoleRepository;
 
     @Bean
     public AuthenticationProvider authenticationProvider(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {

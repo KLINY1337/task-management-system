@@ -1,6 +1,6 @@
 package com.chernomurov.effectivemobile.test.task.management.system.util;
 
-import com.chernomurov.effectivemobile.test.task.management.system.TokenType;
+import com.chernomurov.effectivemobile.test.task.management.system.entity.enumeration.TokenType;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.Token;
 import com.chernomurov.effectivemobile.test.task.management.system.entity.User;
 import io.jsonwebtoken.Claims;
