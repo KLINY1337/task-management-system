@@ -118,6 +118,7 @@ public class CustomerTaskServiceImpl implements CustomerTaskService {
                 }
             });
             task.setContractors(contractors);
+            task.setStatus(TaskStatus.ACCEPTED);
         }
         customerTaskRepository.save(task);
 
@@ -200,8 +201,19 @@ public class CustomerTaskServiceImpl implements CustomerTaskService {
 
     @Override
     public Map<String, Object> updateContractorTaskStatusByTaskId(Long id, TaskStatus status) {
-        return null;
-        //TODO Сделать
+        User currentUser = getCurrentUser();
+        CustomerTask task = customerTaskRepository.findById(id).orElseThrow(() -> new TaskNotFoundException("ERROR -> Task not found (id: '" + id + "') ; Class: " + this.getClass().getName()));
+
+        if (!task.getCustomer().equals(currentUser)) {
+            throw new UnauthorizedCustomerTaskAccessException("ERROR -> Can't access selected task");
+        }
+
+        task.setStatus(status);
+        customerTaskRepository.save(task);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("message", "Task status updated successfully");
+        return response;
     }
 
     private User getCurrentUser() {
