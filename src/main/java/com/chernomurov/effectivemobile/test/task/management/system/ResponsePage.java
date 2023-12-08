@@ -8,7 +8,6 @@ import lombok.RequiredArgsConstructor;
 import java.util.List;
 
 
-@Data
 public record ResponsePage(int pageNumber,
                            List<Object> objects)
 {

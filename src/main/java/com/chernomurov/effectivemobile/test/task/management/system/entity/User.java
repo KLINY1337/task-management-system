@@ -32,7 +32,7 @@ public class User implements UserDetails {
 
     private LocalDateTime creationDate;
 
-    @ManyToMany(fetch = FetchType.LAZY,
+    @ManyToMany(fetch = FetchType.EAGER,
     cascade = {
             CascadeType.PERSIST,
             CascadeType.MERGE
@@ -48,10 +48,23 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author")
     private Set<TaskComment> comments;
 
+    @ManyToMany(fetch = FetchType.LAZY,
+            cascade = {
+                    CascadeType.PERSIST,
+                    CascadeType.MERGE
+            })
+    @JoinTable(name = "contractors_tasks",
+            joinColumns = {@JoinColumn(name = "user_id")},
+            inverseJoinColumns = {@JoinColumn(name = "task_id")})
+    private Set<CustomerTask> acceptedTasks;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toSet());
     }
+
+    @OneToMany(mappedBy = "customer")
+    private Set<CustomerTask> createdTasks;
 
     @Override
     public String getUsername() {

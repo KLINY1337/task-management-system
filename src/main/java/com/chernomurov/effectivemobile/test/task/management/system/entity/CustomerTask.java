@@ -37,7 +37,8 @@ public class CustomerTask {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "customer_id")
-    private Customer customer;
+    @JsonIgnore
+    private User customer;
 
     @ManyToMany(fetch = FetchType.LAZY,
             cascade = {
@@ -45,7 +46,7 @@ public class CustomerTask {
                     CascadeType.MERGE
             }, mappedBy = "acceptedTasks")
     @JsonIgnore
-    private Set<Contractor> contractors;
+    private Set<User> contractors;
 
     @OneToMany(mappedBy = "task")
     private Set<TaskComment> comments;
